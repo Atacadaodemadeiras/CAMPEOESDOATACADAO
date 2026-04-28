@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atacadão de Madeiras – Sorteio Copa do Mundo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#006633;--green-light:#009B3A;--yellow:#FFDF00;--yellow-dark:#e6c800;
+  --blue:#002776;--blue-light:#1a4baa;--gray-bg:#f0f2f5;--gray-border:#dde3ec;
+  --text-dark:#0f1f3d;--text-mid:#3a4a6b;--text-light:#7a8aaa;--red:#e53935;
+  --purple:#3a0070;--purple-light:#6a1aaa;--purple-pale:#e0aaff;
+  --shadow:0 4px 24px rgba(0,39,118,.10);--shadow-lg:0 8px 40px rgba(0,39,118,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Barlow',sans-serif;background:var(--gray-bg);color:var(--text-dark);min-height:100vh}
+
+/* ── NAV ── */
+.topnav{background:var(--blue);display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:64px;box-shadow:0 2px 12px rgba(0,0,0,.25);position:sticky;top:0;z-index:100}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:40px;height:40px;background:var(--yellow);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--blue)}
+.brand-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:#fff;line-height:1}
+.brand-sub{font-size:11px;color:var(--yellow);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{padding:8px 16px;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;border:none;transition:all .2s}
+.nav-tab.cliente{background:var(--green-light);color:#fff}
+.nav-tab.gerente{background:transparent;color:var(--yellow);border:2px solid var(--yellow)}
+.nav-tab.admin{background:transparent;color:var(--purple-pale);border:2px solid var(--purple-pale)}
+.nav-tab.active{background:var(--yellow)!important;color:var(--blue)!important;border-color:var(--yellow)!important}
+.nav-tab:hover{opacity:.85;transform:translateY(-1px)}
+.nav-user{font-size:12px;font-weight:600;color:rgba(255,255,255,.75);margin-right:6px}
+
+/* ── PAGES ── */
+.page{display:none}.page.active{display:block}
+
+/* ── LOGIN WRAP ── */
+.login-wrap{min-height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;padding:28px 16px}
+.login-wrap.bg-blue{background:linear-gradient(160deg,var(--blue) 0%,var(--blue-light) 45%,var(--green) 100%)}
+.login-wrap.bg-green{background:linear-gradient(160deg,var(--green) 0%,var(--blue-light) 60%,var(--blue) 100%)}
+.login-wrap.bg-purple{background:linear-gradient(160deg,#1a0030 0%,var(--purple) 50%,var(--blue) 100%)}
+.login-box{background:#fff;border-radius:20px;padding:34px 28px;width:100%;max-width:430px;box-shadow:var(--shadow-lg)}
+.lb-icon{text-align:center;font-size:50px;margin-bottom:10px}
+.lb-title{font-family:'Bebas Neue',sans-serif;font-size:24px;text-align:center;letter-spacing:1px;margin-bottom:3px}
+.lb-sub{text-align:center;font-size:13px;color:var(--text-light);font-weight:500;margin-bottom:20px}
+.login-tabs{display:flex;background:var(--gray-bg);border-radius:10px;padding:4px;margin-bottom:18px;gap:4px}
+.ltab{flex:1;padding:9px;text-align:center;border-radius:7px;font-weight:700;font-size:12px;cursor:pointer;border:none;background:transparent;color:var(--text-mid);transition:all .2s}
+.ltab.active{background:#fff;color:var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.login-err{background:#fff0f0;border:2px solid #ffb3b3;border-radius:8px;padding:9px 13px;color:var(--red);font-size:13px;font-weight:600;margin-bottom:13px;display:none}
+.login-err.show{display:block}
+
+/* ── CONTAINER ── */
+.container{max-width:880px;margin:0 auto;padding:26px 16px 60px}
+
+/* ── CARD ── */
+.card{background:#fff;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+.card-header{padding:15px 24px;display:flex;align-items:center;gap:10px}
+.card-header h2{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:#fff;letter-spacing:.5px}
+.card-header .icon{font-size:20px}
+.ch-blue{background:linear-gradient(90deg,var(--blue),var(--blue-light))}
+.ch-green{background:linear-gradient(90deg,var(--green),var(--green-light))}
+.ch-yellow{background:linear-gradient(90deg,#b8860b,#e6a800)}
+.ch-red{background:linear-gradient(90deg,#b71c1c,var(--red))}
+.ch-purple{background:linear-gradient(90deg,var(--purple),var(--purple-light))}
+.ch-dark{background:linear-gradient(90deg,#1a0030,var(--purple))}
+.card-body{padding:24px}
+
+/* ── FORM ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.form-grid .full{grid-column:1/-1}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:11px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.5px}
+.fg input,.fg select{padding:10px 12px;border:2px solid var(--gray-border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--text-dark);background:#fafbfc;outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus{border-color:var(--green-light);box-shadow:0 0 0 3px rgba(0,155,58,.10);background:#fff}
+.fg input::placeholder{color:#b0bad0}
+
+/* ── BUTTONS ── */
+.btn{padding:10px 22px;border-radius:8px;font-family:'Barlow',sans-serif;font-weight:700;font-size:13px;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-green{background:var(--green-light);color:#fff;box-shadow:0 4px 12px rgba(0,155,58,.25)}
+.btn-green:hover{background:var(--green);transform:translateY(-1px)}
+.btn-yellow{background:var(--yellow);color:var(--blue);box-shadow:0 4px 12px rgba(255,223,0,.28)}
+.btn-yellow:hover{background:var(--yellow-dark);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--blue);border:2px solid var(--gray-border)}
+.btn-outline:hover{border-color:var(--blue);background:#f0f4ff}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{opacity:.85}
+.btn-purple{background:linear-gradient(90deg,var(--purple),var(--purple-light));color:#fff}
+.btn-purple:hover{opacity:.88;transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.btn-ghost:hover{background:rgba(255,255,255,.25)}
+.btn-full{width:100%;justify-content:center}
+.btn-sm{padding:5px 11px;font-size:11px}
+
+/* ── INFO/WARN BOX ── */
+.info-box{background:linear-gradient(135deg,#fffbe6,#fff8cc);border:2px solid var(--yellow);border-radius:10px;padding:12px 15px;display:flex;align-items:flex-start;gap:8px;margin-bottom:16px}
+.info-box p{font-size:13px;font-weight:500;color:var(--text-dark);line-height:1.5}
+.warn-red{background:#fff5f5;border:2px solid #ffb3b3;border-radius:12px;padding:14px 16px;margin-bottom:16px;text-align:center}
+.warn-red .wr-icon{font-size:20px;margin-bottom:5px}
+.warn-red .wr-text{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--red);letter-spacing:.3px;line-height:1.3}
+
+/* ── CRED BOX ── */
+.cred-box{background:linear-gradient(135deg,var(--blue),var(--blue-light));border-radius:14px;padding:18px 20px;margin:14px 0;color:#fff}
+.cred-box h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--yellow);margin-bottom:11px;letter-spacing:.5px}
+.cred-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.12);border-radius:8px;padding:8px 12px;margin-bottom:7px;gap:8px}
+.cred-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.6);margin-bottom:2px}
+.cred-val{font-size:15px;font-weight:700;color:#fff;font-family:monospace;word-break:break-all}
+.cred-copy{background:var(--yellow);color:var(--blue);border:none;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:800;cursor:pointer;flex-shrink:0}
+.cred-warn{font-size:11px;color:rgba(255,255,255,.6);margin-top:7px;text-align:center}
+
+/* ── ACCOUNT HERO ── */
+.acc-hero{padding:24px;color:#fff}
+.acc-hero.blue{background:linear-gradient(135deg,var(--blue),var(--blue-light))}
+.acc-hero.green{background:linear-gradient(135deg,var(--green),var(--blue-light))}
+.acc-hero.purple{background:linear-gradient(135deg,#1a0030,var(--purple))}
+.acc-hero h1{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px}
+.acc-hero h1 span{color:var(--yellow)}
+.acc-hero h1 span.purple-span{color:var(--purple-pale)}
+.acc-hero p{font-size:13px;opacity:.75;font-weight:500;margin-top:3px}
+
+/* ── STATS ── */
+.stats-row{display:flex;gap:11px;flex-wrap:wrap;margin-bottom:18px}
+.stat-card{flex:1;min-width:100px;background:#fff;border-radius:12px;padding:13px 15px;box-shadow:var(--shadow);border-top:4px solid var(--blue)}
+.stat-card.green{border-top-color:var(--green-light)}
+.stat-card.yellow{border-top-color:var(--yellow)}
+.stat-card.purple{border-top-color:var(--purple-light)}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--text-dark);line-height:1;margin-bottom:2px}
+.stat-label{font-size:10px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px}
+
+/* ── CUPONS ── */
+.cupons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.cupon{background:linear-gradient(135deg,var(--blue),var(--blue-light));border-radius:11px;padding:13px 15px;color:#fff;position:relative;overflow:hidden;box-shadow:0 4px 14px rgba(0,39,118,.2);break-inside:avoid}
+.cupon::before{content:'⚽';position:absolute;right:9px;top:7px;font-size:24px;opacity:.12}
+.cupon-badge{display:inline-block;background:var(--yellow);color:var(--blue);font-size:9px;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.cupon-num{font-family:'Bebas Neue',sans-serif;font-size:23px;letter-spacing:2px;color:var(--yellow);line-height:1;margin-bottom:5px}
+.cupon-div{height:1px;background:rgba(255,255,255,.2);margin:5px 0}
+.cupon-info{font-size:11px;font-weight:600;opacity:.82;line-height:1.6}
+.cupon.pendente{background:linear-gradient(135deg,#555,#777)}
+.cupon.pendente .cupon-badge{background:#aaa;color:#333}
+.cupon.pendente .cupon-num{color:#ccc}
+
+/* ── PEDIDO CARDS ── */
+.pedido-item{border:2px solid var(--gray-border);border-radius:11px;margin-bottom:9px;overflow:hidden}
+.pedido-item.pending{border-color:#f0b429}
+.pedido-item.approved{border-color:var(--green-light)}
+.pedido-item.rejected{border-color:var(--red);opacity:.6}
+.ped-hdr{padding:11px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px;background:#f8f9fc;cursor:pointer;user-select:none}
+.ped-hdr:hover{background:#f0f4ff}
+.ped-num{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--blue)}
+.ped-cli{font-size:12px;font-weight:600;color:var(--text-mid)}
+.ped-val{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--green)}
+.ped-cups{font-size:11px;font-weight:700;color:var(--blue);background:var(--yellow);padding:2px 8px;border-radius:11px}
+.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:11px;text-transform:uppercase;letter-spacing:.5px}
+.b-pend{background:#fff3cd;color:#856404}
+.b-aprov{background:#d4edda;color:#155724}
+.b-recus{background:#f8d7da;color:#721c24}
+.ped-body{padding:13px 16px;display:none;border-top:1px solid var(--gray-border)}
+.ped-body.open{display:block}
+.ped-details{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:12px}
+.det label{font-size:10px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:1px}
+.det span{font-size:13px;font-weight:600;color:var(--text-dark)}
+.action-row{display:flex;gap:8px;flex-wrap:wrap}
+.cups-sec{margin-top:14px}
+.cups-sec h3{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--blue);margin-bottom:10px}
+
+/* ── ADMIN ── */
+.resumo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:11px;margin-bottom:18px}
+.resumo-card{background:#fff;border-radius:12px;padding:13px;box-shadow:var(--shadow);border-left:4px solid var(--purple-light);text-align:center}
+.resumo-val{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--purple);line-height:1}
+.resumo-lbl{font-size:10px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.filter-bar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.filter-bar select,.filter-bar input{padding:7px 11px;border:2px solid var(--gray-border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:12px;color:var(--text-dark);background:#fff;outline:none}
+.filter-bar select:focus,.filter-bar input:focus{border-color:var(--purple-light)}
+.log-item{display:flex;gap:11px;padding:10px 0;border-bottom:1px solid var(--gray-border)}
+.log-item:last-child{border-bottom:none}
+.log-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.log-dot.approved{background:var(--green-light)}.log-dot.rejected{background:var(--red)}.log-dot.pending{background:#f0b429}
+.log-info{flex:1}
+.log-title{font-weight:700;font-size:13px;color:var(--text-dark)}
+.log-detail{font-size:11px;color:var(--text-light);margin-top:2px}
+.log-time{font-size:11px;color:var(--text-light);flex-shrink:0;text-align:right}
+.ger-item{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:10px 13px;border:2px solid var(--gray-border);border-radius:9px;margin-bottom:7px}
+.ger-item:hover{border-color:var(--purple-light);background:#faf8ff}
+.gi-name{font-weight:700;font-size:14px;color:var(--text-dark)}
+.gi-det{font-size:11px;color:var(--text-light);margin-top:2px}
+
+/* ── TABLES ── */
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{background:var(--gray-bg);padding:8px 11px;text-align:left;font-weight:700;color:var(--text-mid);text-transform:uppercase;font-size:10px;letter-spacing:.5px;border-bottom:2px solid var(--gray-border)}
+.tbl td{padding:8px 11px;border-bottom:1px solid var(--gray-border);vertical-align:middle}
+.tbl tr:hover td{background:#faf8ff}
+.pill{background:var(--gray-bg);border-radius:6px;padding:2px 7px;font-family:monospace;font-size:11px;color:var(--text-dark);display:inline-block}
+
+/* ── PRINT MODAL ── */
+.pm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center;padding:20px}
+.pm-overlay.open{display:flex}
+.pm-box{background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:0 12px 48px rgba(0,0,0,.3);animation:slideUp .25s ease}
+.pm-header{background:linear-gradient(90deg,var(--blue),var(--blue-light));padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.pm-header h3{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:800;color:#fff}
+.pm-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pm-close:hover{background:rgba(255,255,255,.3)}
+.pm-body{padding:20px}
+.cfg-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:15px}
+.cfg-box{background:var(--gray-bg);border-radius:9px;padding:11px;border:2px solid transparent;cursor:pointer;transition:all .2s;text-align:center}
+.cfg-box:hover,.cfg-box.sel{border-color:var(--blue);background:#eef2ff}
+.cfg-box .ci{font-size:20px;margin-bottom:3px}
+.cfg-box .cl{font-weight:700;font-size:12px;color:var(--text-dark)}
+.cfg-box .cd{font-size:10px;color:var(--text-light);margin-top:1px}
+.ped-sel-list{margin-bottom:15px}
+.ped-sel-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border:2px solid var(--gray-border);border-radius:8px;margin-bottom:6px;cursor:pointer;transition:all .2s;user-select:none}
+.ped-sel-item:hover,.ped-sel-item.chk{border-color:var(--green-light);background:#f0fff5}
+.ped-sel-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--green-light);cursor:pointer;flex-shrink:0}
+.psi-info{flex:1}.psi-name{font-weight:700;font-size:12px;color:var(--text-dark)}.psi-det{font-size:11px;color:var(--text-light);margin-top:1px}
+.psi-badge{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--green);flex-shrink:0}
+.pm-sum{background:linear-gradient(135deg,#fffbe6,#fff3cd);border:2px solid var(--yellow);border-radius:9px;padding:11px 14px;margin-bottom:15px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.pm-sum .si{text-align:center;flex:1;min-width:60px}
+.pm-sum .sv{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--blue);line-height:1}
+.pm-sum .sl{font-size:10px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px}
+.pm-sum .sd{width:1px;height:32px;background:var(--yellow-dark);opacity:.4}
+.sel-all{display:flex;align-items:center;gap:7px;margin-bottom:9px;cursor:pointer}
+.sel-all input{width:14px;height:14px;accent-color:var(--blue);cursor:pointer}
+.sel-all span{font-size:12px;font-weight:700;color:var(--text-mid)}
+
+/* ── MODAL CONFIRM ── */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:18px}
+.modal-ov.open{display:flex}
+.modal-box{background:#fff;border-radius:16px;padding:26px;max-width:420px;width:100%;box-shadow:var(--shadow-lg);text-align:center;animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(18px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-box .mi{font-size:46px;margin-bottom:9px}
+.modal-box h3{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:var(--blue);margin-bottom:6px}
+.modal-box p{font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:16px}
+.modal-box .btn-row{display:flex;gap:8px;justify-content:center}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body>*:not(#print-area){display:none!important}
+  #print-area{display:block!important}
+  .cupon{break-inside:avoid}
+}
+#print-area{display:none}
+#print-grid{display:grid;gap:7px}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:36px 14px;color:var(--text-light)}
+.empty .ei{font-size:40px;margin-bottom:9px}
+.empty p{font-size:13px;font-weight:500}
+
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:1}
+  .topnav{padding:0 11px}.nav-tab{padding:7px 10px;font-size:11px}
+  .card-body{padding:15px 12px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="topnav">
+  <div class="brand">
+    <div class="brand-icon">AM</div>
+    <div><div class="brand-name">Atacadão de Madeiras</div><div class="brand-sub">⚽ Sorteio Copa do Mundo</div></div>
+  </div>
+  <span class="nav-user" id="nav-user-label"></span>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     TELA ÚNICA DE LOGIN
+══════════════════════════════════════════ -->
+<div id="tela-login" class="page active">
+  <div class="login-wrap bg-blue">
+    <div class="login-box">
+      <div class="lb-icon">⚽</div>
+      <div class="lb-title" style="color:var(--blue)">SORTEIO COPA DO MUNDO</div>
+      <div class="lb-sub">Atacadão de Madeiras</div>
+      <div class="login-tabs">
+        <button class="ltab active" id="ltab-login" onclick="switchCliTab('login')">Já tenho conta</button>
+        <button class="ltab"        id="ltab-cad"   onclick="switchCliTab('cad')">Primeiro acesso</button>
+      </div>
+
+      <!-- LOGIN UNIFICADO -->
+      <div id="cli-login-form">
+        <div id="uni-login-err" class="login-err">Usuário ou senha incorretos.</div>
+        <div class="fg" style="margin-bottom:11px">
+          <label>E-mail / Usuário</label>
+          <input type="text" id="l-email" placeholder="seu@email.com" />
+        </div>
+        <div class="fg" style="margin-bottom:16px">
+          <label>Senha</label>
+          <input type="password" id="l-senha" placeholder="Sua senha" onkeydown="if(event.key==='Enter')fazerLogin()" />
+        </div>
+        <button class="btn btn-green btn-full" onclick="fazerLogin()">Entrar →</button>
+      </div>
+
+      <!-- CADASTRO CLIENTE -->
+      <div id="cli-cad-form" style="display:none">
+        <div class="warn-red">
+          <div class="wr-icon">⚠️</div>
+          <div class="wr-text">QUALQUER CAMPO PREENCHIDO DE FORMA ERRADA, O BILHETE SERÁ INVÁLIDO.</div>
+        </div>
+        <div class="form-grid">
+          <div class="fg full"><label>Nome Completo *</label><input type="text" id="c-nome" placeholder="Seu nome completo"/></div>
+          <div class="fg"><label>Telefone *</label><input type="tel" id="c-tel" placeholder="(00) 00000-0000" oninput="maskPhone(this)"/></div>
+          <div class="fg"><label>Nascimento *</label><input type="date" id="c-nasc"/></div>
+          <div class="fg full"><label>E-mail *</label><input type="email" id="c-email" placeholder="seu@email.com"/></div>
+          <div class="fg"><label>CPF *</label><input type="text" id="c-cpf" placeholder="000.000.000-00" oninput="maskCPF(this)" maxlength="14"/></div>
+          <div class="fg"><label>Empresa *</label><input type="text" id="c-empresa" placeholder="Nome da empresa"/></div>
+          <div class="fg full"><label>Vendedor Responsável *</label><input type="text" id="c-vendedor" placeholder="Nome do vendedor"/></div>
+        </div>
+        <br>
+        <button class="btn btn-green btn-full" onclick="fazerCadastro()">Cadastrar e gerar acesso →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CREDENCIAIS PÓS-CADASTRO -->
+<div id="tela-credenciais" class="page">
+  <div class="login-wrap bg-blue">
+    <div class="login-box" style="max-width:460px">
+      <div style="text-align:center;margin-bottom:14px">
+        <div style="font-size:52px">🎉</div>
+        <div class="lb-title" style="color:var(--green);margin-top:6px">CADASTRO REALIZADO!</div>
+        <p style="color:var(--text-mid);font-size:13px;margin-top:5px;line-height:1.5">Guarde suas credenciais abaixo.<br>Você precisará delas para acessar seus cupons.</p>
+      </div>
+      <div class="cred-box">
+        <h3>🔐 Seus dados de acesso</h3>
+        <div class="cred-row"><div><div class="cred-lbl">E-mail</div><div class="cred-val" id="cred-email">—</div></div><button class="cred-copy" onclick="copiar('cred-email')">Copiar</button></div>
+        <div class="cred-row"><div><div class="cred-lbl">Senha</div><div class="cred-val" id="cred-senha">—</div></div><button class="cred-copy" onclick="copiar('cred-senha')">Copiar</button></div>
+        <div class="cred-warn">⚠️ Anote sua senha agora — ela não pode ser recuperada.</div>
+      </div>
+      <div class="info-box"><span style="font-size:16px">💡</span><p>A cada <strong>R$ 2.000 em compras</strong> você ganha <strong>1 cupom</strong>!</p></div>
+      <button class="btn btn-green btn-full" onclick="irParaConta()">Acessar minha conta →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAINEL CLIENTE
+══════════════════════════════════════════ -->
+<div id="painel-cliente" class="page">
+  <div class="acc-hero blue">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+      <div><h1>OLÁ, <span id="conta-nome">CLIENTE</span>!</h1><p id="conta-empresa"></p></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-yellow" onclick="abrirPedido()" style="font-size:12px">+ Registrar Pedido</button>
+        <button class="btn btn-ghost"  onclick="abrirEditar()"  style="font-size:12px">✏️ Editar Dados</button>
+        <button class="btn btn-ghost"  onclick="logout()" style="font-size:12px">Sair</button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-card yellow"><div class="stat-value" id="ac-cup">0</div><div class="stat-label">Cupons Confirmados</div></div>
+      <div class="stat-card">      <div class="stat-value" id="ac-pend">0</div><div class="stat-label">Pedidos Pendentes</div></div>
+      <div class="stat-card green"><div class="stat-value" id="ac-tot">0</div> <div class="stat-label">Pedidos Enviados</div></div>
+    </div>
+    <div id="form-editar" class="card" style="display:none">
+      <div class="card-header ch-yellow"><span class="icon">✏️</span><h2>Editar Meus Dados</h2></div>
+      <div class="card-body">
+        <div style="background:#fff3cd;border:2px solid var(--yellow);border-radius:9px;padding:10px 14px;margin-bottom:13px;font-size:13px;font-weight:600;color:#856404">⚠️ Dados errados invalidam seus bilhetes.</div>
+        <div class="form-grid">
+          <div class="fg full"><label>Nome *</label><input type="text" id="e-nome"/></div>
+          <div class="fg"><label>Telefone *</label><input type="tel" id="e-tel" oninput="maskPhone(this)"/></div>
+          <div class="fg"><label>Nascimento *</label><input type="date" id="e-nasc"/></div>
+          <div class="fg full"><label>E-mail *</label><input type="email" id="e-email"/></div>
+          <div class="fg"><label>CPF *</label><input type="text" id="e-cpf" oninput="maskCPF(this)" maxlength="14"/></div>
+          <div class="fg"><label>Empresa *</label><input type="text" id="e-empresa"/></div>
+          <div class="fg full"><label>Vendedor *</label><input type="text" id="e-vendedor"/></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:13px">
+          <button class="btn btn-outline" onclick="fecharEditar()">Cancelar</button>
+          <button class="btn btn-green" style="flex:1" onclick="salvarEdicao()">💾 Salvar</button>
+        </div>
+      </div>
+    </div>
+    <div id="form-pedido" class="card" style="display:none">
+      <div class="card-header ch-green"><span class="icon">🛒</span><h2>Registrar Novo Pedido</h2></div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div class="fg"><label>Número do Pedido *</label><input type="text" id="p-num" placeholder="Ex: 764520"/></div>
+          <div class="fg"><label>Valor (R$) *</label><input type="text" id="p-val" placeholder="Ex: 12.500,00" oninput="maskMoney(this)"/></div>
+        </div>
+        <div id="prev-cup" style="display:none;margin-top:11px">
+          <div class="info-box" style="margin-bottom:0"><span style="font-size:16px">🎟️</span><p id="prev-txt"></p></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:13px">
+          <button class="btn btn-outline" onclick="fecharPedido()">Cancelar</button>
+          <button class="btn btn-green" style="flex:1" onclick="enviarPedido()">📤 Enviar Pedido</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header ch-blue"><span class="icon">🎟️</span><h2>Meus Cupons</h2></div>
+      <div class="card-body" id="body-cupons"><div class="empty"><div class="ei">🎟️</div><p>Nenhum cupom ainda. Registre um pedido!</p></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header ch-yellow"><span class="icon">📋</span><h2>Meus Pedidos</h2></div>
+      <div class="card-body" id="body-pedidos"><div class="empty"><div class="ei">📭</div><p>Nenhum pedido registrado.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAINEL GERENTE
+══════════════════════════════════════════ -->
+<div id="painel-gerente" class="page">
+  <div class="acc-hero green">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+      <div><h1>PAINEL DO <span>GERENTE</span></h1><p id="ger-nome-label"></p></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-yellow" onclick="abrirPrintModal()" style="font-size:12px">🖨️ Imprimir Cupons</button>
+        <button class="btn btn-ghost"  onclick="logout()" style="font-size:12px">Sair</button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-card">      <div class="stat-value" id="g-pend">0</div><div class="stat-label">Pendentes</div></div>
+      <div class="stat-card green"><div class="stat-value" id="g-aprov">0</div><div class="stat-label">Aprovados</div></div>
+      <div class="stat-card yellow"><div class="stat-value" id="g-cup">0</div><div class="stat-label">Cupons Gerados</div></div>
+    </div>
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-header ch-blue"><span class="icon">⏳</span><h2>Pedidos Aguardando Aprovação</h2></div>
+      <div class="card-body" style="padding:12px" id="g-lista-pend"><div class="empty"><div class="ei">📭</div><p>Nenhum pedido pendente.</p></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header ch-green"><span class="icon">✅</span><h2>Pedidos Aprovados & Cupons</h2></div>
+      <div class="card-body" style="padding:12px" id="g-lista-aprov"><div class="empty"><div class="ei">🎟️</div><p>Nenhum pedido aprovado ainda.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAINEL ADMIN
+══════════════════════════════════════════ -->
+<div id="painel-admin" class="page">
+  <div class="acc-hero purple">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+      <div><h1>PAINEL DO <span class="purple-span">ADMINISTRADOR</span></h1><p>Visão completa · Gerenciamento de usuários</p></div>
+      <button class="btn btn-ghost" onclick="logout()" style="font-size:12px">Sair</button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="resumo-grid">
+      <div class="resumo-card"><div class="resumo-val" id="a-cli">0</div><div class="resumo-lbl">Clientes</div></div>
+      <div class="resumo-card"><div class="resumo-val" id="a-ger">0</div><div class="resumo-lbl">Gerentes</div></div>
+      <div class="resumo-card"><div class="resumo-val" id="a-ped">0</div><div class="resumo-lbl">Pedidos</div></div>
+      <div class="resumo-card"><div class="resumo-val" id="a-aprov">0</div><div class="resumo-lbl">Aprovados</div></div>
+      <div class="resumo-card"><div class="resumo-val" id="a-pend">0</div><div class="resumo-lbl">Pendentes</div></div>
+      <div class="resumo-card"><div class="resumo-val" id="a-cup">0</div><div class="resumo-lbl">Cupons</div></div>
+      <div class="resumo-card"><div class="resumo-val" id="a-vol">R$0</div><div class="resumo-lbl">Volume</div></div>
+    </div>
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-header ch-purple"><span class="icon">🔐</span><h2>Gerenciar Gerentes</h2></div>
+      <div class="card-body">
+        <div style="background:var(--gray-bg);border-radius:10px;padding:15px;margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Adicionar Novo Gerente</div>
+          <div class="form-grid">
+            <div class="fg"><label>Nome *</label><input type="text" id="ng-nome" placeholder="Nome do gerente"/></div>
+            <div class="fg"><label>Usuário (login) *</label><input type="text" id="ng-user" placeholder="Ex: gerente01"/></div>
+            <div class="fg"><label>Senha *</label><input type="text" id="ng-senha" placeholder="Defina uma senha"/></div>
+          </div>
+          <button class="btn btn-purple" style="margin-top:10px" onclick="adicionarGerente()">+ Adicionar Gerente</button>
+        </div>
+        <div id="adm-gerentes"><div class="empty"><div class="ei">👤</div><p>Nenhum gerente cadastrado.</p></div></div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-header ch-dark"><span class="icon">👥</span><h2>Gerenciar Clientes</h2></div>
+      <div class="card-body">
+        <div style="background:var(--gray-bg);border-radius:10px;padding:15px;margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Adicionar Cliente Manualmente</div>
+          <div class="form-grid">
+            <div class="fg full"><label>Nome *</label><input type="text" id="nc-nome" placeholder="Nome completo"/></div>
+            <div class="fg"><label>Telefone *</label><input type="tel" id="nc-tel" placeholder="(00) 00000-0000" oninput="maskPhone(this)"/></div>
+            <div class="fg"><label>Nascimento *</label><input type="date" id="nc-nasc"/></div>
+            <div class="fg full"><label>E-mail *</label><input type="email" id="nc-email" placeholder="email@cliente.com"/></div>
+            <div class="fg"><label>CPF *</label><input type="text" id="nc-cpf" placeholder="000.000.000-00" oninput="maskCPF(this)" maxlength="14"/></div>
+            <div class="fg"><label>Empresa *</label><input type="text" id="nc-empresa" placeholder="Nome da empresa"/></div>
+            <div class="fg full"><label>Vendedor *</label><input type="text" id="nc-vendedor" placeholder="Nome do vendedor"/></div>
+          </div>
+          <button class="btn btn-purple" style="margin-top:10px" onclick="adicionarCliente()">+ Adicionar Cliente</button>
+        </div>
+        <div id="adm-clientes"><div class="empty"><div class="ei">👤</div><p>Nenhum cliente cadastrado.</p></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header ch-purple"><span class="icon">📋</span><h2>Histórico de Pedidos</h2></div>
+      <div class="card-body">
+        <div class="filter-bar">
+          <select id="a-filtro" onchange="renderAdmPedidos()">
+            <option value="all">Todos</option>
+            <option value="approved">✅ Aprovados</option>
+            <option value="pending">⏳ Pendentes</option>
+            <option value="rejected">❌ Recusados</option>
+          </select>
+          <input type="text" id="a-busca" placeholder="Buscar cliente ou pedido..." oninput="renderAdmPedidos()" style="min-width:180px"/>
+        </div>
+        <div id="adm-log"><div class="empty"><div class="ei">📭</div><p>Nenhum pedido ainda.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRM -->
+<div class="modal-ov" id="modal-ov">
+  <div class="modal-box">
+    <div class="mi" id="m-icon">✅</div>
+    <h3 id="m-title"></h3><p id="m-body"></p>
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="fecharModal()">Cancelar</button>
+      <button class="btn btn-green" id="m-btn" onclick="confirmarAcao()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL IMPRESSÃO -->
+<div class="pm-overlay" id="pm-overlay">
+  <div class="pm-box">
+    <div class="pm-header"><h3>🖨️ Configurar Impressão em Lote</h3><button class="pm-close" onclick="fecharPrint()">✕</button></div>
+    <div class="pm-body">
+      <p style="font-size:11px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Cupons por linha</p>
+      <div class="cfg-row" id="cfg-layout">
+        <div class="cfg-box sel" onclick="selLayout(this,2)"><div class="ci">▋▋</div><div class="cl">2 por linha</div><div class="cd">Cupons maiores</div></div>
+        <div class="cfg-box" onclick="selLayout(this,3)"><div class="ci">▋▋▋</div><div class="cl">3 por linha</div><div class="cd">Bom equilíbrio</div></div>
+        <div class="cfg-box" onclick="selLayout(this,4)"><div class="ci">▋▋▋▋</div><div class="cl">4 por linha</div><div class="cd">Mais por folha</div></div>
+        <div class="cfg-box" onclick="selLayout(this,5)"><div class="ci">▌▌▌▌▌</div><div class="cl">5 por linha</div><div class="cd">Máxima economia</div></div>
+      </div>
+      <p style="font-size:11px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Selecionar pedidos</p>
+      <label class="sel-all"><input type="checkbox" id="chk-all" onchange="toggleTodos(this)" checked><span>Selecionar todos</span></label>
+      <div class="ped-sel-list" id="pm-lista"></div>
+      <div class="pm-sum">
+        <div class="si"><div class="sv" id="ps-ped">0</div><div class="sl">Pedidos</div></div>
+        <div class="sd"></div>
+        <div class="si"><div class="sv" id="ps-cup">0</div><div class="sl">Cupons</div></div>
+        <div class="sd"></div>
+        <div class="si"><div class="sv" id="ps-fol">~0</div><div class="sl">Folhas A4</div></div>
+        <div class="sd"></div>
+        <div class="si"><div class="sv" id="ps-col">2</div><div class="sl">Por linha</div></div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline" onclick="fecharPrint()">Cancelar</button>
+        <button class="btn btn-yellow" style="flex:1" onclick="executarImpressao()">🖨️ Imprimir Agora</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ÁREA IMPRESSÃO -->
+<div id="print-area">
+  <div style="text-align:center;padding:9px 0 12px;border-bottom:3px solid #002776;margin-bottom:12px">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#002776;letter-spacing:2px">ATACADÃO DE MADEIRAS — SORTEIO COPA DO MUNDO</div>
+    <div id="print-info" style="font-size:10px;color:#666;margin-top:2px;font-family:sans-serif"></div>
+  </div>
+  <div id="print-grid"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// BANCO DE DADOS
+// ═══════════════════════════════════════════
+const DB = {
+  clientes: [],
+  gerentes: [{id:1,nome:'Gerente Padrão',usuario:'gerente',senha:'gerente123'}],
+  pedidos:  [],
+  nextCid: 1,
+  nextPid: 1000
+};
+const ADMIN_SENHA = 'admin123';
+let clienteLogado = null;
+let gerenteLogado = null;
+let adminLogado   = false;
+let modalAcao     = null;
+let printCols     = 2;
+
+// ═══════════════════════════════════════════
+// NAVEGAÇÃO
+// ═══════════════════════════════════════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function logout() {
+  clienteLogado = null;
+  gerenteLogado = null;
+  adminLogado   = false;
+  document.getElementById('nav-user-label').textContent = '';
+  document.getElementById('l-email').value = '';
+  document.getElementById('l-senha').value = '';
+  document.getElementById('uni-login-err').classList.remove('show');
+  switchCliTab('login');
+  showPage('tela-login');
+}
+
+// ═══════════════════════════════════════════
+// LOGIN UNIFICADO — detecta perfil automaticamente
+// ═══════════════════════════════════════════
+function switchCliTab(t) {
+  document.getElementById('ltab-login').classList.toggle('active', t==='login');
+  document.getElementById('ltab-cad').classList.toggle('active',   t==='cad');
+  document.getElementById('cli-login-form').style.display = t==='login' ? 'block' : 'none';
+  document.getElementById('cli-cad-form').style.display   = t==='cad'   ? 'block' : 'none';
+  document.getElementById('uni-login-err').classList.remove('show');
+}
+
+function fazerLogin() {
+  const input = document.getElementById('l-email').value.trim().toLowerCase();
+  const senha = document.getElementById('l-senha').value;
+  const err   = document.getElementById('uni-login-err');
+
+  // 1. Admin?
+  if (input === 'admin' && senha === ADMIN_SENHA) {
+    adminLogado = true;
+    document.getElementById('nav-user-label').textContent = '👑 Administrador';
+    showPage('painel-admin');
+    renderAdmin();
+    return;
+  }
+
+  // 2. Gerente?
+  const g = DB.gerentes.find(x => x.usuario === input && x.senha === senha);
+  if (g) {
+    gerenteLogado = g;
+    document.getElementById('nav-user-label').textContent = '🔐 ' + g.nome;
+    document.getElementById('ger-nome-label').textContent = g.nome;
+    showPage('painel-gerente');
+    renderGerente();
+    return;
+  }
+
+  // 3. Cliente?
+  const c = DB.clientes.find(x => x.loginEmail === input && x.senha === senha);
+  if (c) {
+    clienteLogado = c;
+    document.getElementById('nav-user-label').textContent = '👤 ' + c.nome.split(' ')[0];
+    irParaConta();
+    return;
+  }
+
+  err.classList.add('show');
+  document.getElementById('l-senha').value = '';
+}
+
+// ═══════════════════════════════════════════
+// CADASTRO CLIENTE
+// ═══════════════════════════════════════════
+function fazerCadastro() {
+  const campos = [
+    {id:'c-nome',n:'Nome'},{id:'c-tel',n:'Telefone'},{id:'c-nasc',n:'Nascimento'},
+    {id:'c-email',n:'E-mail'},{id:'c-cpf',n:'CPF'},{id:'c-empresa',n:'Empresa'},{id:'c-vendedor',n:'Vendedor'}
+  ];
+  for (const c of campos) { const el=document.getElementById(c.id); if(!el.value.trim()){el.focus();alert('Preencha: '+c.n);return;} }
+  const email = document.getElementById('c-email').value.trim().toLowerCase();
+  if (DB.clientes.find(c=>c.loginEmail===email)) { alert('E-mail já cadastrado. Use "Já tenho conta".'); return; }
+  const senha = gerarSenha();
+  const cliente = {
+    id: DB.nextCid++,
+    nome:       document.getElementById('c-nome').value.trim(),
+    telefone:   document.getElementById('c-tel').value.trim(),
+    nascimento: document.getElementById('c-nasc').value,
+    email, cpf: document.getElementById('c-cpf').value.trim(),
+    empresa:    document.getElementById('c-empresa').value.trim(),
+    vendedor:   document.getElementById('c-vendedor').value.trim(),
+    loginEmail: email, senha,
+    dataCadastro: new Date().toLocaleDateString('pt-BR')
+  };
+  DB.clientes.push(cliente);
+  clienteLogado = cliente;
+  document.getElementById('cred-email').textContent = email;
+  document.getElementById('cred-senha').textContent = senha;
+  showPage('tela-credenciais');
+}
+
+function irParaConta() {
+  document.getElementById('conta-nome').textContent    = clienteLogado.nome.split(' ')[0].toUpperCase();
+  document.getElementById('conta-empresa').textContent = clienteLogado.empresa;
+  showPage('painel-cliente');
+  renderConta();
+}
+
+// ═══════════════════════════════════════════
+// CONTA CLIENTE
+// ═══════════════════════════════════════════
+function renderConta() {
+  if (!clienteLogado) return;
+  const meus  = DB.pedidos.filter(p=>p.clienteId===clienteLogado.id);
+  const aprov = meus.filter(p=>p.status==='approved');
+  const pend  = meus.filter(p=>p.status==='pending');
+  const cups  = aprov.reduce((s,p)=>s+p.cuponsGerados,0);
+  document.getElementById('ac-cup').textContent  = cups;
+  document.getElementById('ac-pend').textContent = pend.length;
+  document.getElementById('ac-tot').textContent  = meus.length;
+
+  const bc = document.getElementById('body-cupons');
+  if (!aprov.length && !pend.length) {
+    bc.innerHTML = `<div class="empty"><div class="ei">🎟️</div><p>Nenhum cupom ainda. Registre um pedido!</p></div>`;
+  } else {
+    let h = '<div class="cupons-grid">';
+    aprov.forEach(p=>{ for(let i=1;i<=p.cuponsGerados;i++) h+=cupomHtml(p,i); });
+    pend.forEach(p=>{ h+=`<div class="cupon pendente"><div class="cupon-badge">⏳ Aguardando aprovação</div><div class="cupon-num">PEDIDO #${p.numeroPedido}</div><div class="cupon-div"></div><div class="cupon-info">${formatMoney(p.valor)}<br><em style="opacity:.7">Cupons liberados após aprovação</em></div></div>`; });
+    bc.innerHTML = h + '</div>';
+  }
+
+  const bp = document.getElementById('body-pedidos');
+  if (!meus.length) { bp.innerHTML=`<div class="empty"><div class="ei">📭</div><p>Nenhum pedido registrado.</p></div>`; return; }
+  bp.innerHTML = meus.slice().reverse().map(p=>{
+    const badge = p.status==='pending'?`<span class="badge b-pend">⏳ Aguardando</span>`:p.status==='approved'?`<span class="badge b-aprov">✅ Aprovado · 🎟️ ${p.cuponsGerados}</span>`:`<span class="badge b-recus">❌ Recusado</span>`;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:7px;padding:9px 0;border-bottom:1px solid var(--gray-border)">
+      <div><div style="font-weight:700;font-size:13px">Pedido #${p.numeroPedido}</div><div style="font-size:11px;color:var(--text-light)">${p.data} ${p.hora}</div></div>
+      <div style="display:flex;align-items:center;gap:8px"><div style="font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--green)">${formatMoney(p.valor)}</div>${badge}</div>
+    </div>`;
+  }).join('');
+}
+
+function abrirEditar() {
+  const c = clienteLogado;
+  ['e-nome','e-tel','e-nasc','e-email','e-cpf','e-empresa','e-vendedor'].forEach((id,i)=>{
+    const vals = [c.nome,c.telefone,c.nascimento,c.email,c.cpf||'',c.empresa,c.vendedor];
+    document.getElementById(id).value = vals[i];
+  });
+  const f = document.getElementById('form-editar');
+  f.style.display='block'; f.scrollIntoView({behavior:'smooth'});
+}
+function fecharEditar() { document.getElementById('form-editar').style.display='none'; }
+function salvarEdicao() {
+  const ids=['e-nome','e-tel','e-nasc','e-email','e-cpf','e-empresa','e-vendedor'];
+  const ns =['Nome','Telefone','Nascimento','E-mail','CPF','Empresa','Vendedor'];
+  for(let i=0;i<ids.length;i++){const el=document.getElementById(ids[i]);if(!el.value.trim()){el.focus();alert('Preencha: '+ns[i]);return;}}
+  const novoEmail = document.getElementById('e-email').value.trim().toLowerCase();
+  if(DB.clientes.find(c=>c.loginEmail===novoEmail&&c.id!==clienteLogado.id)){alert('E-mail já em uso.');return;}
+  clienteLogado.nome=document.getElementById('e-nome').value.trim();
+  clienteLogado.telefone=document.getElementById('e-tel').value.trim();
+  clienteLogado.nascimento=document.getElementById('e-nasc').value;
+  clienteLogado.email=novoEmail; clienteLogado.loginEmail=novoEmail;
+  clienteLogado.cpf=document.getElementById('e-cpf').value.trim();
+  clienteLogado.empresa=document.getElementById('e-empresa').value.trim();
+  clienteLogado.vendedor=document.getElementById('e-vendedor').value.trim();
+  fecharEditar();
+  document.getElementById('conta-nome').textContent    = clienteLogado.nome.split(' ')[0].toUpperCase();
+  document.getElementById('conta-empresa').textContent = clienteLogado.empresa;
+  alert('✅ Dados atualizados!');
+}
+
+function abrirPedido() {
+  document.getElementById('p-num').value=''; document.getElementById('p-val').value='';
+  document.getElementById('prev-cup').style.display='none';
+  const f=document.getElementById('form-pedido'); f.style.display='block'; f.scrollIntoView({behavior:'smooth'});
+}
+function fecharPedido() { document.getElementById('form-pedido').style.display='none'; }
+function atualizarPreview() {
+  const val=parseMoney(document.getElementById('p-val').value);
+  const prev=document.getElementById('prev-cup');
+  if(val>=2000){const q=Math.floor(val/2000);document.getElementById('prev-txt').innerHTML=`Com <strong>${formatMoney(val)}</strong> você ganha <strong>${q} cupom(s)</strong> após aprovação! 🎟️`;prev.style.display='block';}
+  else prev.style.display='none';
+}
+function enviarPedido() {
+  const num=document.getElementById('p-num').value.trim();
+  const vs=document.getElementById('p-val').value.trim();
+  if(!num){document.getElementById('p-num').focus();alert('Informe o número do pedido.');return;}
+  if(!vs||parseMoney(vs)<=0){document.getElementById('p-val').focus();alert('Informe o valor.');return;}
+  const val=parseMoney(vs);
+  DB.pedidos.push({id:DB.nextPid++,clienteId:clienteLogado.id,numeroPedido:num,valor:val,cuponsGerados:Math.floor(val/2000),status:'pending',data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})});
+  fecharPedido(); renderConta();
+  alert(`✅ Pedido #${num} enviado! Aguarde aprovação.`);
+}
+
+// ═══════════════════════════════════════════
+// GERENTE
+// ═══════════════════════════════════════════
+function renderGerente() {
+  const pend=DB.pedidos.filter(p=>p.status==='pending').length;
+  const aprov=DB.pedidos.filter(p=>p.status==='approved').length;
+  const cup=DB.pedidos.filter(p=>p.status==='approved').reduce((s,p)=>s+p.cuponsGerados,0);
+  document.getElementById('g-pend').textContent=pend;
+  document.getElementById('g-aprov').textContent=aprov;
+  document.getElementById('g-cup').textContent=cup;
+  const lp=DB.pedidos.filter(p=>p.status==='pending');
+  document.getElementById('g-lista-pend').innerHTML=lp.length?lp.map(p=>pedidoCard(p)).join(''):`<div class="empty"><div class="ei">📭</div><p>Nenhum pedido pendente.</p></div>`;
+  const la=DB.pedidos.filter(p=>p.status!=='pending').slice().reverse();
+  document.getElementById('g-lista-aprov').innerHTML=la.length?la.map(p=>pedidoCard(p,true)).join(''):`<div class="empty"><div class="ei">🎟️</div><p>Nenhum pedido aprovado.</p></div>`;
+}
+
+function pedidoCard(p, expanded=false) {
+  const c=DB.clientes.find(x=>x.id===p.clienteId)||{};
+  const badge=p.status==='pending'?`<span class="badge b-pend">⏳ Aguardando</span>`:p.status==='approved'?`<span class="badge b-aprov">✅ Aprovado</span>`:`<span class="badge b-recus">❌ Recusado</span>`;
+  const ct=p.status==='approved'&&p.cuponsGerados>0?`<span class="ped-cups">🎟️ ${p.cuponsGerados}</span>`:'';
+  const act=p.status==='pending'?`<div class="action-row"><button class="btn btn-green btn-sm" onclick="abrirModal('approve',${p.id})">✅ Aprovar</button><button class="btn btn-red btn-sm" onclick="abrirModal('reject',${p.id})">❌ Recusar</button></div>`:'';
+  const cups=p.status==='approved'&&p.cuponsGerados>0?`<div class="cups-sec"><h3>🎟️ ${p.cuponsGerados} Cupom(s)</h3><div class="cupons-grid">${Array.from({length:p.cuponsGerados},(_,i)=>cupomHtml(p,i+1)).join('')}</div></div>`:'';
+  return `<div class="pedido-item ${p.status}" id="pi-${p.id}">
+    <div class="ped-hdr" onclick="togglePed(${p.id})">
+      <div><div class="ped-num">Pedido #${p.numeroPedido}</div><div class="ped-cli">${c.nome||'—'} — ${c.empresa||'—'}</div></div>
+      <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">${ct}<div class="ped-val">${formatMoney(p.valor)}</div>${badge}<span style="font-size:14px;color:#bbb">▾</span></div>
+    </div>
+    <div class="ped-body ${expanded?'open':''}" id="pb-${p.id}">
+      <div class="ped-details">
+        <div class="det"><label>Cliente</label><span>${c.nome||'—'}</span></div>
+        <div class="det"><label>CPF</label><span>${c.cpf||'—'}</span></div>
+        <div class="det"><label>Empresa</label><span>${c.empresa||'—'}</span></div>
+        <div class="det"><label>Telefone</label><span>${c.telefone||'—'}</span></div>
+        <div class="det"><label>E-mail</label><span>${c.email||'—'}</span></div>
+        <div class="det"><label>Vendedor</label><span>${c.vendedor||'—'}</span></div>
+        <div class="det"><label>Data</label><span>${p.data} ${p.hora}</span></div>
+      </div>${act}${cups}
+    </div>
+  </div>`;
+}
+
+function cupomHtml(p,num,sz='12px'){
+  const c=DB.clientes.find(x=>x.id===p.clienteId)||{};
+  const code=`${p.numeroPedido}-${String(num).padStart(3,'0')}`;
+  return `<div class="cupon" style="font-size:${sz}"><div class="cupon-badge">⚽ Copa do Mundo · Atacadão de Madeiras</div><div class="cupon-num">${code}</div><div class="cupon-div"></div><div class="cupon-info">${c.nome||'—'}<br>${c.empresa||'—'}<br>${c.telefone||'—'} · ${c.email||'—'}<br>Pedido Nº ${p.numeroPedido}</div></div>`;
+}
+function togglePed(id){document.getElementById('pb-'+id).classList.toggle('open');}
+
+// ═══════════════════════════════════════════
+// MODAL APROVAÇÃO
+// ═══════════════════════════════════════════
+function abrirModal(acao,pid){
+  modalAcao={acao,pid};
+  const p=DB.pedidos.find(x=>x.id===pid);
+  const btn=document.getElementById('m-btn');
+  if(acao==='approve'){
+    document.getElementById('m-icon').textContent='✅';document.getElementById('m-title').textContent='Aprovar Pedido?';
+    document.getElementById('m-body').innerHTML=`Pedido <strong>#${p.numeroPedido}</strong> · <strong>${formatMoney(p.valor)}</strong><br>Serão gerados <strong>${p.cuponsGerados} cupom(s)</strong>.`;
+    btn.textContent='Aprovar';btn.className='btn btn-green';
+  } else {
+    document.getElementById('m-icon').textContent='⚠️';document.getElementById('m-title').textContent='Recusar Pedido?';
+    document.getElementById('m-body').innerHTML=`Recusar pedido <strong>#${p.numeroPedido}</strong>?`;
+    btn.textContent='Recusar';btn.className='btn btn-red';
+  }
+  document.getElementById('modal-ov').classList.add('open');
+}
+function fecharModal(){document.getElementById('modal-ov').classList.remove('open');modalAcao=null;}
+function confirmarAcao(){
+  if(!modalAcao)return;
+  const p=DB.pedidos.find(x=>x.id===modalAcao.pid);
+  p.status=modalAcao.acao==='approve'?'approved':'rejected';
+  fecharModal(); renderGerente();
+  if(clienteLogado&&p.clienteId===clienteLogado.id) renderConta();
+  if(adminLogado) renderAdmin();
+}
+
+// ═══════════════════════════════════════════
+// ADMIN
+// ═══════════════════════════════════════════
+function renderAdmin(){
+  if(!adminLogado)return;
+  const aprov=DB.pedidos.filter(p=>p.status==='approved');
+  const vol=aprov.reduce((s,p)=>s+p.valor,0);
+  document.getElementById('a-cli').textContent   = DB.clientes.length;
+  document.getElementById('a-ger').textContent   = DB.gerentes.length;
+  document.getElementById('a-ped').textContent   = DB.pedidos.length;
+  document.getElementById('a-aprov').textContent = aprov.length;
+  document.getElementById('a-pend').textContent  = DB.pedidos.filter(p=>p.status==='pending').length;
+  document.getElementById('a-cup').textContent   = aprov.reduce((s,p)=>s+p.cuponsGerados,0);
+  document.getElementById('a-vol').textContent   = vol>=1000?'R$'+(vol/1000).toFixed(0)+'k':'R$'+vol.toLocaleString('pt-BR');
+  renderAdmGerentes(); renderAdmClientes(); renderAdmPedidos();
+}
+
+function renderAdmGerentes(){
+  const el=document.getElementById('adm-gerentes');
+  if(!DB.gerentes.length){el.innerHTML=`<div class="empty"><div class="ei">👤</div><p>Nenhum gerente.</p></div>`;return;}
+  el.innerHTML=DB.gerentes.map(g=>`<div class="ger-item">
+    <div><div class="gi-name">🔐 ${g.nome}</div><div class="gi-det">Usuário: <span class="pill">${g.usuario}</span> · Senha: <span class="pill">${g.senha}</span></div></div>
+    <button class="btn btn-red btn-sm" onclick="excluirGerente(${g.id})">🗑️ Excluir</button>
+  </div>`).join('');
+}
+function adicionarGerente(){
+  const nome=document.getElementById('ng-nome').value.trim();
+  const user=document.getElementById('ng-user').value.trim();
+  const senha=document.getElementById('ng-senha').value.trim();
+  if(!nome||!user||!senha){alert('Preencha todos os campos.');return;}
+  if(DB.gerentes.find(g=>g.usuario===user)){alert('Usuário já existe.');return;}
+  DB.gerentes.push({id:Date.now(),nome,usuario:user,senha});
+  ['ng-nome','ng-user','ng-senha'].forEach(id=>document.getElementById(id).value='');
+  renderAdmGerentes(); document.getElementById('a-ger').textContent=DB.gerentes.length;
+}
+function excluirGerente(id){
+  if(!confirm('Excluir este gerente?'))return;
+  const i=DB.gerentes.findIndex(g=>g.id===id); if(i>-1)DB.gerentes.splice(i,1);
+  renderAdmGerentes(); document.getElementById('a-ger').textContent=DB.gerentes.length;
+}
+
+function renderAdmClientes(){
+  const el=document.getElementById('adm-clientes');
+  if(!DB.clientes.length){el.innerHTML=`<div class="empty"><div class="ei">👤</div><p>Nenhum cliente.</p></div>`;return;}
+  el.innerHTML=`<table class="tbl"><thead><tr><th>Nome</th><th>CPF</th><th>Empresa</th><th>E-mail/Login</th><th>Senha</th><th>Vendedor</th><th>Cadastro</th><th></th></tr></thead><tbody>
+    ${DB.clientes.map(c=>`<tr><td><strong>${c.nome}</strong></td><td>${c.cpf||'—'}</td><td>${c.empresa}</td><td><span class="pill">${c.loginEmail}</span></td><td><span class="pill">${c.senha}</span></td><td>${c.vendedor}</td><td>${c.dataCadastro}</td><td><button class="btn btn-red btn-sm" onclick="excluirCliente(${c.id})">🗑️</button></td></tr>`).join('')}
+  </tbody></table>`;
+}
+function adicionarCliente(){
+  const campos=[{id:'nc-nome',n:'Nome'},{id:'nc-tel',n:'Telefone'},{id:'nc-nasc',n:'Nascimento'},{id:'nc-email',n:'E-mail'},{id:'nc-cpf',n:'CPF'},{id:'nc-empresa',n:'Empresa'},{id:'nc-vendedor',n:'Vendedor'}];
+  for(const c of campos){const el=document.getElementById(c.id);if(!el.value.trim()){el.focus();alert('Preencha: '+c.n);return;}}
+  const email=document.getElementById('nc-email').value.trim().toLowerCase();
+  if(DB.clientes.find(c=>c.loginEmail===email)){alert('E-mail já cadastrado.');return;}
+  const senha=gerarSenha();
+  const c={id:DB.nextCid++,nome:document.getElementById('nc-nome').value.trim(),telefone:document.getElementById('nc-tel').value.trim(),nascimento:document.getElementById('nc-nasc').value,email,cpf:document.getElementById('nc-cpf').value.trim(),empresa:document.getElementById('nc-empresa').value.trim(),vendedor:document.getElementById('nc-vendedor').value.trim(),loginEmail:email,senha,dataCadastro:new Date().toLocaleDateString('pt-BR')};
+  DB.clientes.push(c);
+  ['nc-nome','nc-tel','nc-nasc','nc-email','nc-cpf','nc-empresa','nc-vendedor'].forEach(id=>document.getElementById(id).value='');
+  renderAdmClientes(); document.getElementById('a-cli').textContent=DB.clientes.length;
+  alert(`✅ Cliente adicionado!\nE-mail: ${email}\nSenha: ${senha}`);
+}
+function excluirCliente(id){
+  if(!confirm('Excluir este cliente?'))return;
+  const i=DB.clientes.findIndex(c=>c.id===id); if(i>-1)DB.clientes.splice(i,1);
+  renderAdmClientes(); document.getElementById('a-cli').textContent=DB.clientes.length;
+}
+function renderAdmPedidos(){
+  const status=document.getElementById('a-filtro').value;
+  const busca=document.getElementById('a-busca').value.toLowerCase().trim();
+  let lista=DB.pedidos.slice().reverse();
+  if(status!=='all')lista=lista.filter(p=>p.status===status);
+  if(busca)lista=lista.filter(p=>{const c=DB.clientes.find(x=>x.id===p.clienteId)||{};return(c.nome||'').toLowerCase().includes(busca)||(c.empresa||'').toLowerCase().includes(busca)||p.numeroPedido.toLowerCase().includes(busca);});
+  const el=document.getElementById('adm-log');
+  if(!lista.length){el.innerHTML=`<div class="empty"><div class="ei">🔍</div><p>Nenhum resultado.</p></div>`;return;}
+  el.innerHTML=lista.map(p=>{
+    const c=DB.clientes.find(x=>x.id===p.clienteId)||{};
+    const dot=p.status==='approved'?'approved':p.status==='rejected'?'rejected':'pending';
+    const label=p.status==='approved'?'✅ Aprovado':p.status==='rejected'?'❌ Recusado':'⏳ Pendente';
+    const cups=p.status==='approved'?` · 🎟️ ${p.cuponsGerados} cupom(s)`:'';
+    const bc=p.status==='approved'?'b-aprov':p.status==='rejected'?'b-recus':'b-pend';
+    return `<div class="log-item"><div class="log-dot ${dot}" style="margin-top:5px"></div>
+      <div class="log-info"><div class="log-title">Pedido #${p.numeroPedido} — ${c.nome||'—'} (${c.empresa||'—'})</div><div class="log-detail">${formatMoney(p.valor)}${cups} · Vendedor: ${c.vendedor||'—'} · CPF: ${c.cpf||'—'}</div></div>
+      <div class="log-time"><span class="badge ${bc}">${label}</span><div style="margin-top:3px">${p.data}<br>${p.hora}</div></div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// IMPRESSÃO
+// ═══════════════════════════════════════════
+function abrirPrintModal(){
+  const lista=DB.pedidos.filter(p=>p.status==='approved'&&p.cuponsGerados>0);
+  if(!lista.length){alert('Nenhum cupom para imprimir.');return;}
+  document.getElementById('pm-lista').innerHTML=lista.map(p=>{
+    const c=DB.clientes.find(x=>x.id===p.clienteId)||{};
+    return `<label class="ped-sel-item chk" id="psi-${p.id}"><input type="checkbox" value="${p.id}" checked onchange="onChk(this)"><div class="psi-info"><div class="psi-name">${c.nome||'—'} — ${c.empresa||'—'}</div><div class="psi-det">Pedido #${p.numeroPedido} · ${formatMoney(p.valor)} · ${p.data}</div></div><div class="psi-badge">🎟️ ${p.cuponsGerados}</div></label>`;
+  }).join('');
+  updResume(); document.getElementById('pm-overlay').classList.add('open');
+}
+function fecharPrint(){document.getElementById('pm-overlay').classList.remove('open');}
+function selLayout(el,cols){document.querySelectorAll('#cfg-layout .cfg-box').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');printCols=cols;updResume();}
+function toggleTodos(chk){document.querySelectorAll('#pm-lista input[type=checkbox]').forEach(c=>{c.checked=chk.checked;c.closest('label').classList.toggle('chk',chk.checked)});updResume();}
+function onChk(el){el.closest('label').classList.toggle('chk',el.checked);updResume();const all=document.querySelectorAll('#pm-lista input[type=checkbox]');document.getElementById('chk-all').checked=[...all].every(c=>c.checked);}
+function getIds(){return[...document.querySelectorAll('#pm-lista input[type=checkbox]:checked')].map(c=>parseInt(c.value));}
+function updResume(){
+  const ids=getIds();const peds=DB.pedidos.filter(p=>ids.includes(p.id));
+  const tot=peds.reduce((s,p)=>s+p.cuponsGerados,0);const fol=Math.max(1,Math.ceil(Math.ceil(tot/printCols)/9));
+  document.getElementById('ps-ped').textContent=peds.length;document.getElementById('ps-cup').textContent=tot;
+  document.getElementById('ps-fol').textContent='~'+fol;document.getElementById('ps-col').textContent=printCols;
+}
+function executarImpressao(){
+  const ids=getIds();if(!ids.length){alert('Selecione ao menos um pedido.');return;}
+  const peds=DB.pedidos.filter(p=>ids.includes(p.id));
+  const tot=peds.reduce((s,p)=>s+p.cuponsGerados,0);
+  const grid=document.getElementById('print-grid');
+  const sz=printCols<=2?'13px':printCols<=3?'11px':'10px';
+  grid.style.gridTemplateColumns=`repeat(${printCols},1fr)`;
+  const all=[];peds.forEach(p=>{for(let i=1;i<=p.cuponsGerados;i++)all.push(cupomHtml(p,i,sz));});
+  grid.innerHTML=all.join('');
+  const now=new Date();
+  document.getElementById('print-info').textContent=`Impressão em lote: ${tot} cupons · ${peds.length} pedido(s) · ${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}`;
+  fecharPrint(); setTimeout(()=>window.print(),200);
+}
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function gerarSenha(){const c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#!';return Array.from({length:8},()=>c[Math.floor(Math.random()*c.length)]).join('');}
+function maskPhone(el){let v=el.value.replace(/\D/g,'').slice(0,11);if(v.length>10)v=v.replace(/^(\d{2})(\d{5})(\d{4}).*/,'($1) $2-$3');else if(v.length>6)v=v.replace(/^(\d{2})(\d{4})(\d*)/,'($1) $2-$3');else if(v.length>2)v=v.replace(/^(\d{2})(\d*)/,'($1) $2');el.value=v;}
+function maskCPF(el){let v=el.value.replace(/\D/g,'').slice(0,11);if(v.length>9)v=v.replace(/^(\d{3})(\d{3})(\d{3})(\d*)/,'$1.$2.$3-$4');else if(v.length>6)v=v.replace(/^(\d{3})(\d{3})(\d*)/,'$1.$2.$3');else if(v.length>3)v=v.replace(/^(\d{3})(\d*)/,'$1.$2');el.value=v;}
+function maskMoney(el){let v=el.value.replace(/\D/g,'');if(!v){el.value='';return;}v=(parseInt(v)/100).toFixed(2);el.value=v.replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');atualizarPreview();}
+function parseMoney(s){return s?parseFloat(s.replace(/\./g,'').replace(',','.'))||0:0;}
+function formatMoney(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function copiar(id){const txt=document.getElementById(id).textContent;navigator.clipboard.writeText(txt).then(()=>{const b=event.target;b.textContent='✓ Copiado!';setTimeout(()=>b.textContent='Copiar',1800);}).catch(()=>prompt('Copie:',txt));}
+</script>
+const DB = {
+  clientes: [],
+  gerentes: [{id:1,nome:'Gerente Padrão',usuario:'gerente',senha:'gerente123'}],
+  pedidos:  [],
+  nextCid: 1,
+  nextPid: 1000
+};
+const ADMIN_SENHA = 'admin123';
+let clienteLogado = null;
+let gerenteLogado = null;
+let adminLogado   = false;
+let modalAcao     = null;
+let printCols     = 2;
+
+// ═══════════════════════════════════════════
+// NAVEGAÇÃO — cada aba mostra só o login se não estiver logado
+// ═══════════════════════════════════════════
+function showPage(p) {
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.querySelector('.nav-tab.'+p).classList.add('active');
+  if(p==='gerente' && gerenteLogado) renderGerente();
+  if(p==='admin'   && adminLogado)   renderAdmin();
+}
+
+// ═══════════════════════════════════════════
+// CLIENTE
+// ═══════════════════════════════════════════
+function switchCliTab(t){
+  document.getElementById('ltab-login').classList.toggle('active',t==='login');
+  document.getElementById('ltab-cad').classList.toggle('active',t==='cad');
+  document.getElementById('cli-login-form').style.display = t==='login'?'block':'none';
+  document.getElementById('cli-cad-form').style.display   = t==='cad'  ?'block':'none';
+  document.getElementById('cli-login-err').classList.remove('show');
+}
+
+function fazerLogin(){
+  const email=document.getElementById('l-email').value.trim().toLowerCase();
+  const senha=document.getElementById('l-senha').value;
+  const c=DB.clientes.find(x=>x.loginEmail===email&&x.senha===senha);
+  if(!c){document.getElementById('cli-login-err').classList.add('show');document.getElementById('l-senha').value='';return;}
+  document.getElementById('cli-login-err').classList.remove('show');
+  clienteLogado=c; irParaConta();
+}
+
+function fazerCadastro(){
+  const campos=[
+    {id:'c-nome',n:'Nome'},{id:'c-tel',n:'Telefone'},{id:'c-nasc',n:'Nascimento'},
+    {id:'c-email',n:'E-mail'},{id:'c-cpf',n:'CPF'},{id:'c-empresa',n:'Empresa'},{id:'c-vendedor',n:'Vendedor'}
+  ];
+  for(const c of campos){const el=document.getElementById(c.id);if(!el.value.trim()){el.focus();alert('Preencha: '+c.n);return;}}
+  const email=document.getElementById('c-email').value.trim().toLowerCase();
+  if(DB.clientes.find(c=>c.loginEmail===email)){alert('E-mail já cadastrado.');return;}
+  const senha=gerarSenha();
+  const cliente={
+    id:DB.nextCid++,
+    nome:document.getElementById('c-nome').value.trim(),
+    telefone:document.getElementById('c-tel').value.trim(),
+    nascimento:document.getElementById('c-nasc').value,
+    email,cpf:document.getElementById('c-cpf').value.trim(),
+    empresa:document.getElementById('c-empresa').value.trim(),
+    vendedor:document.getElementById('c-vendedor').value.trim(),
+    loginEmail:email,senha,
+    dataCadastro:new Date().toLocaleDateString('pt-BR')
+  };
+  DB.clientes.push(cliente);
+  clienteLogado=cliente;
+  document.getElementById('cred-email').textContent=email;
+  document.getElementById('cred-senha').textContent=senha;
+  document.getElementById('cli-auth').style.display='none';
+  document.getElementById('cli-cred').style.display='flex';
+}
+
+function irParaConta(){
+  document.getElementById('cli-auth').style.display='none';
+  document.getElementById('cli-cred').style.display='none';
+  document.getElementById('cli-conta').style.display='block';
+  document.getElementById('conta-nome').textContent=clienteLogado.nome.split(' ')[0].toUpperCase();
+  document.getElementById('conta-empresa').textContent=clienteLogado.empresa;
+  document.getElementById('nav-user-label').textContent='👤 '+clienteLogado.nome.split(' ')[0];
+  renderConta();
+}
+
+function logoutCliente(){
+  clienteLogado=null;
+  document.getElementById('cli-conta').style.display='none';
+  document.getElementById('cli-auth').style.display='flex';
+  document.getElementById('nav-user-label').textContent='';
+  document.getElementById('l-email').value='';
+  document.getElementById('l-senha').value='';
+}
+
+function renderConta(){
+  if(!clienteLogado)return;
+  const meus=DB.pedidos.filter(p=>p.clienteId===clienteLogado.id);
+  const aprov=meus.filter(p=>p.status==='approved');
+  const pend =meus.filter(p=>p.status==='pending');
+  const cups =aprov.reduce((s,p)=>s+p.cuponsGerados,0);
+  document.getElementById('ac-cup').textContent =cups;
+  document.getElementById('ac-pend').textContent=pend.length;
+  document.getElementById('ac-tot').textContent =meus.length;
+  // cupons
+  const bc=document.getElementById('body-cupons');
+  if(!aprov.length&&!pend.length){bc.innerHTML=`<div class="empty"><div class="ei">🎟️</div><p>Nenhum cupom ainda.</p></div>`;} else {
+    let h='<div class="cupons-grid">';
+    aprov.forEach(p=>{for(let i=1;i<=p.cuponsGerados;i++)h+=cupomHtml(p,i);});
+    pend.forEach(p=>{h+=`<div class="cupon pendente"><div class="cupon-badge">⏳ Aguardando aprovação</div><div class="cupon-num">PEDIDO #${p.numeroPedido}</div><div class="cupon-div"></div><div class="cupon-info">${formatMoney(p.valor)}<br><em style="opacity:.7">Cupons liberados após aprovação</em></div></div>`;});
+    bc.innerHTML=h+'</div>';
+  }
+  // pedidos
+  const bp=document.getElementById('body-pedidos');
+  if(!meus.length){bp.innerHTML=`<div class="empty"><div class="ei">📭</div><p>Nenhum pedido.</p></div>`;return;}
+  bp.innerHTML=meus.slice().reverse().map(p=>{
+    const badge=p.status==='pending'?`<span class="badge b-pend">⏳ Aguardando</span>`:p.status==='approved'?`<span class="badge b-aprov">✅ Aprovado · 🎟️ ${p.cuponsGerados}</span>`:`<span class="badge b-recus">❌ Recusado</span>`;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:7px;padding:9px 0;border-bottom:1px solid var(--gray-border)">
+      <div><div style="font-weight:700;font-size:13px">Pedido #${p.numeroPedido}</div><div style="font-size:11px;color:var(--text-light)">${p.data} ${p.hora}</div></div>
+      <div style="display:flex;align-items:center;gap:8px"><div style="font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--green)">${formatMoney(p.valor)}</div>${badge}</div>
+    </div>`;
+  }).join('');
+}
+
+function abrirEditar(){
+  const c=clienteLogado;
+  document.getElementById('e-nome').value=c.nome;document.getElementById('e-tel').value=c.telefone;
+  document.getElementById('e-nasc').value=c.nascimento;document.getElementById('e-email').value=c.email;
+  document.getElementById('e-cpf').value=c.cpf||'';document.getElementById('e-empresa').value=c.empresa;
+  document.getElementById('e-vendedor').value=c.vendedor;
+  const f=document.getElementById('form-editar');f.style.display='block';f.scrollIntoView({behavior:'smooth'});
+}
+function fecharEditar(){document.getElementById('form-editar').style.display='none';}
+function salvarEdicao(){
+  const ids=['e-nome','e-tel','e-nasc','e-email','e-cpf','e-empresa','e-vendedor'];
+  const ns=['Nome','Telefone','Nascimento','E-mail','CPF','Empresa','Vendedor'];
+  for(let i=0;i<ids.length;i++){const el=document.getElementById(ids[i]);if(!el.value.trim()){el.focus();alert('Preencha: '+ns[i]);return;}}
+  const novoEmail=document.getElementById('e-email').value.trim().toLowerCase();
+  if(DB.clientes.find(c=>c.loginEmail===novoEmail&&c.id!==clienteLogado.id)){alert('E-mail já em uso.');return;}
+  clienteLogado.nome=document.getElementById('e-nome').value.trim();
+  clienteLogado.telefone=document.getElementById('e-tel').value.trim();
+  clienteLogado.nascimento=document.getElementById('e-nasc').value;
+  clienteLogado.email=novoEmail;clienteLogado.loginEmail=novoEmail;
+  clienteLogado.cpf=document.getElementById('e-cpf').value.trim();
+  clienteLogado.empresa=document.getElementById('e-empresa').value.trim();
+  clienteLogado.vendedor=document.getElementById('e-vendedor').value.trim();
+  fecharEditar();
+  document.getElementById('conta-nome').textContent=clienteLogado.nome.split(' ')[0].toUpperCase();
+  document.getElementById('conta-empresa').textContent=clienteLogado.empresa;
+  alert('✅ Dados atualizados!');
+}
+
+function abrirPedido(){
+  const f=document.getElementById('form-pedido');
+  document.getElementById('p-num').value='';document.getElementById('p-val').value='';
+  document.getElementById('prev-cup').style.display='none';
+  f.style.display='block';f.scrollIntoView({behavior:'smooth'});
+}
+function fecharPedido(){document.getElementById('form-pedido').style.display='none';}
+function atualizarPreview(){
+  const val=parseMoney(document.getElementById('p-val').value);
+  const prev=document.getElementById('prev-cup');
+  if(val>=2000){const q=Math.floor(val/2000);document.getElementById('prev-txt').innerHTML=`Com <strong>${formatMoney(val)}</strong> você ganha <strong>${q} cupom(s)</strong> após aprovação! 🎟️`;prev.style.display='block';}
+  else prev.style.display='none';
+}
+function enviarPedido(){
+  const num=document.getElementById('p-num').value.trim();
+  const vs=document.getElementById('p-val').value.trim();
+  if(!num){document.getElementById('p-num').focus();alert('Informe o número do pedido.');return;}
+  if(!vs||parseMoney(vs)<=0){document.getElementById('p-val').focus();alert('Informe o valor.');return;}
+  const val=parseMoney(vs);
+  DB.pedidos.push({id:DB.nextPid++,clienteId:clienteLogado.id,numeroPedido:num,valor:val,cuponsGerados:Math.floor(val/2000),status:'pending',data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})});
+  fecharPedido();renderConta();alert(`✅ Pedido #${num} enviado!`);
+}
+
+// ═══════════════════════════════════════════
+// GERENTE
+// ═══════════════════════════════════════════
+function loginGerente(){
+  const user=document.getElementById('g-user').value.trim();
+  const senha=document.getElementById('g-senha').value;
+  const g=DB.gerentes.find(x=>x.usuario===user&&x.senha===senha);
+  if(!g){document.getElementById('ger-err').classList.add('show');document.getElementById('g-senha').value='';return;}
+  document.getElementById('ger-err').classList.remove('show');
+  gerenteLogado=g;
+  document.getElementById('ger-auth').style.display='none';
+  document.getElementById('ger-painel').style.display='block';
+  document.getElementById('ger-nome-label').textContent=g.nome;
+  document.getElementById('nav-user-label').textContent='🔐 '+g.nome;
+  renderGerente();
+}
+function logoutGerente(){
+  gerenteLogado=null;
+  document.getElementById('ger-painel').style.display='none';
+  document.getElementById('ger-auth').style.display='flex';
+  document.getElementById('nav-user-label').textContent='';
+  document.getElementById('g-user').value='';document.getElementById('g-senha').value='';
+}
+function renderGerente(){
+  const pend=DB.pedidos.filter(p=>p.status==='pending').length;
+  const aprov=DB.pedidos.filter(p=>p.status==='approved').length;
+  const cup=DB.pedidos.filter(p=>p.status==='approved').reduce((s,p)=>s+p.cuponsGerados,0);
+  document.getElementById('g-pend').textContent=pend;
+  document.getElementById('g-aprov').textContent=aprov;
+  document.getElementById('g-cup').textContent=cup;
+  const lp=DB.pedidos.filter(p=>p.status==='pending');
+  document.getElementById('g-lista-pend').innerHTML=lp.length?lp.map(p=>pedidoCard(p)).join(''):`<div class="empty"><div class="ei">📭</div><p>Nenhum pedido pendente.</p></div>`;
+  const la=DB.pedidos.filter(p=>p.status!=='pending').slice().reverse();
+  document.getElementById('g-lista-aprov').innerHTML=la.length?la.map(p=>pedidoCard(p,true)).join(''):`<div class="empty"><div class="ei">🎟️</div><p>Nenhum pedido aprovado.</p></div>`;
+}
+function pedidoCard(p,expanded=false){
+  const c=DB.clientes.find(x=>x.id===p.clienteId)||{};
+  const badge=p.status==='pending'?`<span class="badge b-pend">⏳ Aguardando</span>`:p.status==='approved'?`<span class="badge b-aprov">✅ Aprovado</span>`:`<span class="badge b-recus">❌ Recusado</span>`;
+  const ct=p.status==='approved'&&p.cuponsGerados>0?`<span class="ped-cups">🎟️ ${p.cuponsGerados}</span>`:'';
+  const act=p.status==='pending'?`<div class="action-row"><button class="btn btn-green btn-sm" onclick="abrirModal('approve',${p.id})">✅ Aprovar</button><button class="btn btn-red btn-sm" onclick="abrirModal('reject',${p.id})">❌ Recusar</button></div>`:'';
+  const cups=p.status==='approved'&&p.cuponsGerados>0?`<div class="cups-sec"><h3>🎟️ ${p.cuponsGerados} Cupom(s)</h3><div class="cupons-grid">${Array.from({length:p.cuponsGerados},(_,i)=>cupomHtml(p,i+1)).join('')}</div></div>`:'';
+  return `<div class="pedido-item ${p.status}" id="pi-${p.id}">
+    <div class="ped-hdr" onclick="togglePed(${p.id})">
+      <div><div class="ped-num">Pedido #${p.numeroPedido}</div><div class="ped-cli">${c.nome||'—'} — ${c.empresa||'—'}</div></div>
+      <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">${ct}<div class="ped-val">${formatMoney(p.valor)}</div>${badge}<span style="font-size:14px;color:#bbb">▾</span></div>
+    </div>
+    <div class="ped-body ${expanded?'open':''}" id="pb-${p.id}">
+      <div class="ped-details">
+        <div class="det"><label>Cliente</label><span>${c.nome||'—'}</span></div>
+        <div class="det"><label>CPF</label><span>${c.cpf||'—'}</span></div>
+        <div class="det"><label>Empresa</label><span>${c.empresa||'—'}</span></div>
+        <div class="det"><label>Telefone</label><span>${c.telefone||'—'}</span></div>
+        <div class="det"><label>E-mail</label><span>${c.email||'—'}</span></div>
+        <div class="det"><label>Vendedor</label><span>${c.vendedor||'—'}</span></div>
+        <div class="det"><label>Data</label><span>${p.data} ${p.hora}</span></div>
+      </div>${act}${cups}
+    </div>
+  </div>`;
+}
+function cupomHtml(p,num,sz='12px'){
+  const c=DB.clientes.find(x=>x.id===p.clienteId)||{};
+  const code=`${p.numeroPedido}-${String(num).padStart(3,'0')}`;
+  return `<div class="cupon" style="font-size:${sz}"><div class="cupon-badge">⚽ Copa do Mundo · Atacadão de Madeiras</div><div class="cupon-num">${code}</div><div class="cupon-div"></div><div class="cupon-info">${c.nome||'—'}<br>${c.empresa||'—'}<br>${c.telefone||'—'} · ${c.email||'—'}<br>Pedido Nº ${p.numeroPedido}</div></div>`;
+}
+function togglePed(id){document.getElementById('pb-'+id).classList.toggle('open');}
+
+// ═══════════════════════════════════════════
+// MODAL APROVAÇÃO
+// ═══════════════════════════════════════════
+function abrirModal(acao,pid){
+  modalAcao={acao,pid};
+  const p=DB.pedidos.find(x=>x.id===pid);
+  const btn=document.getElementById('m-btn');
+  if(acao==='approve'){
+    document.getElementById('m-icon').textContent='✅';document.getElementById('m-title').textContent='Aprovar Pedido?';
+    document.getElementById('m-body').innerHTML=`Pedido <strong>#${p.numeroPedido}</strong> · <strong>${formatMoney(p.valor)}</strong><br>Serão gerados <strong>${p.cuponsGerados} cupom(s)</strong>.`;
+    btn.textContent='Aprovar';btn.className='btn btn-green';
+  } else {
+    document.getElementById('m-icon').textContent='⚠️';document.getElementById('m-title').textContent='Recusar Pedido?';
+    document.getElementById('m-body').innerHTML=`Recusar pedido <strong>#${p.numeroPedido}</strong>?`;
+    btn.textContent='Recusar';btn.className='btn btn-red';
+  }
+  document.getElementById('modal-ov').classList.add('open');
+}
+function fecharModal(){document.getElementById('modal-ov').classList.remove('open');modalAcao=null;}
+function confirmarAcao(){
+  if(!modalAcao)return;
+  const p=DB.pedidos.find(x=>x.id===modalAcao.pid);
+  p.status=modalAcao.acao==='approve'?'approved':'rejected';
+  fecharModal();renderGerente();
+  if(clienteLogado&&p.clienteId===clienteLogado.id)renderConta();
+  if(adminLogado)renderAdmin();
+}
+
+// ═══════════════════════════════════════════
+// ADMIN
+// ═══════════════════════════════════════════
+function loginAdmin(){
+  const s=document.getElementById('adm-senha').value;
+  if(s!==ADMIN_SENHA){document.getElementById('adm-err').classList.add('show');document.getElementById('adm-senha').value='';return;}
+  document.getElementById('adm-err').classList.remove('show');
+  adminLogado=true;
+  document.getElementById('adm-auth').style.display='none';
+  document.getElementById('adm-painel').style.display='block';
+  document.getElementById('nav-user-label').textContent='👑 Admin';
+  renderAdmin();
+}
+function logoutAdmin(){
+  adminLogado=false;
+  document.getElementById('adm-painel').style.display='none';
+  document.getElementById('adm-auth').style.display='flex';
+  document.getElementById('nav-user-label').textContent='';
+  document.getElementById('adm-senha').value='';
+}
+function renderAdmin(){
+  if(!adminLogado)return;
+  const aprov=DB.pedidos.filter(p=>p.status==='approved');
+  const vol=aprov.reduce((s,p)=>s+p.valor,0);
+  document.getElementById('a-cli').textContent=DB.clientes.length;
+  document.getElementById('a-ger').textContent=DB.gerentes.length;
+  document.getElementById('a-ped').textContent=DB.pedidos.length;
+  document.getElementById('a-aprov').textContent=aprov.length;
+  document.getElementById('a-pend').textContent=DB.pedidos.filter(p=>p.status==='pending').length;
+  document.getElementById('a-cup').textContent=aprov.reduce((s,p)=>s+p.cuponsGerados,0);
+  document.getElementById('a-vol').textContent=vol>=1000?'R$'+(vol/1000).toFixed(0)+'k':'R$'+vol.toLocaleString('pt-BR');
+  renderAdmGerentes();renderAdmClientes();renderAdmPedidos();
+}
+function renderAdmGerentes(){
+  const el=document.getElementById('adm-gerentes');
+  if(!DB.gerentes.length){el.innerHTML=`<div class="empty"><div class="ei">👤</div><p>Nenhum gerente.</p></div>`;return;}
+  el.innerHTML=DB.gerentes.map(g=>`<div class="ger-item">
+    <div><div class="gi-name">🔐 ${g.nome}</div><div class="gi-det">Usuário: <span class="pill">${g.usuario}</span> · Senha: <span class="pill">${g.senha}</span></div></div>
+    <button class="btn btn-red btn-sm" onclick="excluirGerente(${g.id})">🗑️ Excluir</button>
+  </div>`).join('');
+}
+function adicionarGerente(){
+  const nome=document.getElementById('ng-nome').value.trim();
+  const user=document.getElementById('ng-user').value.trim();
+  const senha=document.getElementById('ng-senha').value.trim();
+  if(!nome||!user||!senha){alert('Preencha todos os campos.');return;}
+  if(DB.gerentes.find(g=>g.usuario===user)){alert('Usuário já existe.');return;}
+  DB.gerentes.push({id:Date.now(),nome,usuario:user,senha});
+  ['ng-nome','ng-user','ng-senha'].forEach(id=>document.getElementById(id).value='');
+  renderAdmGerentes();document.getElementById('a-ger').textContent=DB.gerentes.length;
+}
+function excluirGerente(id){
+  if(!confirm('Excluir este gerente?'))return;
+  const i=DB.gerentes.findIndex(g=>g.id===id);if(i>-1)DB.gerentes.splice(i,1);
+  renderAdmGerentes();document.getElementById('a-ger').textContent=DB.gerentes.length;
+}
+function renderAdmClientes(){
+  const el=document.getElementById('adm-clientes');
+  if(!DB.clientes.length){el.innerHTML=`<div class="empty"><div class="ei">👤</div><p>Nenhum cliente.</p></div>`;return;}
+  el.innerHTML=`<table class="tbl"><thead><tr><th>Nome</th><th>CPF</th><th>Empresa</th><th>E-mail/Login</th><th>Senha</th><th>Vendedor</th><th>Cadastro</th><th></th></tr></thead><tbody>
+    ${DB.clientes.map(c=>`<tr><td><strong>${c.nome}</strong></td><td>${c.cpf||'—'}</td><td>${c.empresa}</td><td><span class="pill">${c.loginEmail}</span></td><td><span class="pill">${c.senha}</span></td><td>${c.vendedor}</td><td>${c.dataCadastro}</td><td><button class="btn btn-red btn-sm" onclick="excluirCliente(${c.id})">🗑️</button></td></tr>`).join('')}
+  </tbody></table>`;
+}
+function adicionarCliente(){
+  const campos=[{id:'nc-nome',n:'Nome'},{id:'nc-tel',n:'Telefone'},{id:'nc-nasc',n:'Nascimento'},{id:'nc-email',n:'E-mail'},{id:'nc-cpf',n:'CPF'},{id:'nc-empresa',n:'Empresa'},{id:'nc-vendedor',n:'Vendedor'}];
+  for(const c of campos){const el=document.getElementById(c.id);if(!el.value.trim()){el.focus();alert('Preencha: '+c.n);return;}}
+  const email=document.getElementById('nc-email').value.trim().toLowerCase();
+  if(DB.clientes.find(c=>c.loginEmail===email)){alert('E-mail já cadastrado.');return;}
+  const senha=gerarSenha();
+  const c={id:DB.nextCid++,nome:document.getElementById('nc-nome').value.trim(),telefone:document.getElementById('nc-tel').value.trim(),nascimento:document.getElementById('nc-nasc').value,email,cpf:document.getElementById('nc-cpf').value.trim(),empresa:document.getElementById('nc-empresa').value.trim(),vendedor:document.getElementById('nc-vendedor').value.trim(),loginEmail:email,senha,dataCadastro:new Date().toLocaleDateString('pt-BR')};
+  DB.clientes.push(c);
+  ['nc-nome','nc-tel','nc-nasc','nc-email','nc-cpf','nc-empresa','nc-vendedor'].forEach(id=>document.getElementById(id).value='');
+  renderAdmClientes();document.getElementById('a-cli').textContent=DB.clientes.length;
+  alert(`✅ Cliente adicionado!\nE-mail: ${email}\nSenha: ${senha}`);
+}
+function excluirCliente(id){
+  if(!confirm('Excluir este cliente?'))return;
+  const i=DB.clientes.findIndex(c=>c.id===id);if(i>-1)DB.clientes.splice(i,1);
+  renderAdmClientes();document.getElementById('a-cli').textContent=DB.clientes.length;
+}
+function renderAdmPedidos(){
+  const status=document.getElementById('a-filtro').value;
+  const busca=document.getElementById('a-busca').value.toLowerCase().trim();
+  let lista=DB.pedidos.slice().reverse();
+  if(status!=='all')lista=lista.filter(p=>p.status===status);
+  if(busca)lista=lista.filter(p=>{const c=DB.clientes.find(x=>x.id===p.clienteId)||{};return(c.nome||'').toLowerCase().includes(busca)||(c.empresa||'').toLowerCase().includes(busca)||p.numeroPedido.toLowerCase().includes(busca);});
+  const el=document.getElementById('adm-log');
+  if(!lista.length){el.innerHTML=`<div class="empty"><div class="ei">🔍</div><p>Nenhum resultado.</p></div>`;return;}
+  el.innerHTML=lista.map(p=>{
+    const c=DB.clientes.find(x=>x.id===p.clienteId)||{};
+    const dot=p.status==='approved'?'approved':p.status==='rejected'?'rejected':'pending';
+    const label=p.status==='approved'?'✅ Aprovado':p.status==='rejected'?'❌ Recusado':'⏳ Pendente';
+    const cups=p.status==='approved'?` · 🎟️ ${p.cuponsGerados} cupom(s)`:'';
+    const bc=p.status==='approved'?'b-aprov':p.status==='rejected'?'b-recus':'b-pend';
+    return `<div class="log-item"><div class="log-dot ${dot}" style="margin-top:5px"></div>
+      <div class="log-info"><div class="log-title">Pedido #${p.numeroPedido} — ${c.nome||'—'} (${c.empresa||'—'})</div><div class="log-detail">${formatMoney(p.valor)}${cups} · Vendedor: ${c.vendedor||'—'} · CPF: ${c.cpf||'—'}</div></div>
+      <div class="log-time"><span class="badge ${bc}">${label}</span><div style="margin-top:3px">${p.data}<br>${p.hora}</div></div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// IMPRESSÃO
+// ═══════════════════════════════════════════
+function abrirPrintModal(){
+  const lista=DB.pedidos.filter(p=>p.status==='approved'&&p.cuponsGerados>0);
+  if(!lista.length){alert('Nenhum cupom para imprimir.');return;}
+  document.getElementById('pm-lista').innerHTML=lista.map(p=>{
+    const c=DB.clientes.find(x=>x.id===p.clienteId)||{};
+    return `<label class="ped-sel-item chk" id="psi-${p.id}"><input type="checkbox" value="${p.id}" checked onchange="onChk(this)"><div class="psi-info"><div class="psi-name">${c.nome||'—'} — ${c.empresa||'—'}</div><div class="psi-det">Pedido #${p.numeroPedido} · ${formatMoney(p.valor)} · ${p.data}</div></div><div class="psi-badge">🎟️ ${p.cuponsGerados}</div></label>`;
+  }).join('');
+  updResume();document.getElementById('pm-overlay').classList.add('open');
+}
+function fecharPrint(){document.getElementById('pm-overlay').classList.remove('open');}
+function selLayout(el,cols){document.querySelectorAll('#cfg-layout .cfg-box').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');printCols=cols;updResume();}
+function toggleTodos(chk){document.querySelectorAll('#pm-lista input[type=checkbox]').forEach(c=>{c.checked=chk.checked;c.closest('label').classList.toggle('chk',chk.checked)});updResume();}
+function onChk(el){el.closest('label').classList.toggle('chk',el.checked);updResume();const all=document.querySelectorAll('#pm-lista input[type=checkbox]');document.getElementById('chk-all').checked=[...all].every(c=>c.checked);}
+function getIds(){return[...document.querySelectorAll('#pm-lista input[type=checkbox]:checked')].map(c=>parseInt(c.value));}
+function updResume(){
+  const ids=getIds();const peds=DB.pedidos.filter(p=>ids.includes(p.id));
+  const tot=peds.reduce((s,p)=>s+p.cuponsGerados,0);const fol=Math.max(1,Math.ceil(Math.ceil(tot/printCols)/9));
+  document.getElementById('ps-ped').textContent=peds.length;document.getElementById('ps-cup').textContent=tot;
+  document.getElementById('ps-fol').textContent='~'+fol;document.getElementById('ps-col').textContent=printCols;
+}
+function executarImpressao(){
+  const ids=getIds();if(!ids.length){alert('Selecione ao menos um pedido.');return;}
+  const peds=DB.pedidos.filter(p=>ids.includes(p.id));
+  const tot=peds.reduce((s,p)=>s+p.cuponsGerados,0);
+  const grid=document.getElementById('print-grid');
+  const sz=printCols<=2?'13px':printCols<=3?'11px':'10px';
+  grid.style.gridTemplateColumns=`repeat(${printCols},1fr)`;
+  const all=[];peds.forEach(p=>{for(let i=1;i<=p.cuponsGerados;i++)all.push(cupomHtml(p,i,sz));});
+  grid.innerHTML=all.join('');
+  const now=new Date();
+  document.getElementById('print-info').textContent=`Impressão em lote: ${tot} cupons · ${peds.length} pedido(s) · ${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}`;
+  fecharPrint();setTimeout(()=>window.print(),200);
+}
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function gerarSenha(){const c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789@#!';return Array.from({length:8},()=>c[Math.floor(Math.random()*c.length)]).join('');}
+function maskPhone(el){let v=el.value.replace(/\D/g,'').slice(0,11);if(v.length>10)v=v.replace(/^(\d{2})(\d{5})(\d{4}).*/,'($1) $2-$3');else if(v.length>6)v=v.replace(/^(\d{2})(\d{4})(\d*)/,'($1) $2-$3');else if(v.length>2)v=v.replace(/^(\d{2})(\d*)/,'($1) $2');el.value=v;}
+function maskCPF(el){let v=el.value.replace(/\D/g,'').slice(0,11);if(v.length>9)v=v.replace(/^(\d{3})(\d{3})(\d{3})(\d*)/,'$1.$2.$3-$4');else if(v.length>6)v=v.replace(/^(\d{3})(\d{3})(\d*)/,'$1.$2.$3');else if(v.length>3)v=v.replace(/^(\d{3})(\d*)/,'$1.$2');el.value=v;}
+function maskMoney(el){let v=el.value.replace(/\D/g,'');if(!v){el.value='';return;}v=(parseInt(v)/100).toFixed(2);el.value=v.replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');atualizarPreview();}
+function parseMoney(s){return s?parseFloat(s.replace(/\./g,'').replace(',','.'))||0:0;}
+function formatMoney(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function copiar(id){const txt=document.getElementById(id).textContent;navigator.clipboard.writeText(txt).then(()=>{const b=event.target;b.textContent='✓ Copiado!';setTimeout(()=>b.textContent='Copiar',1800);}).catch(()=>prompt('Copie:',txt));}
+</script>
+</body>
+</html>
